@@ -1,7 +1,7 @@
 # Clasificador MLP
 <div style="display: flex; justify-content: space-between;">
     <p>Alumno: Fabian Neftaly Guia Cruz</p>
-    <p>Fecha: 13 de diciembre de 2025</p>
+    <p>Fecha: 15 de diciembre de 2025</p>
 </div>
 
 ## Analisis Exploratorio de Datos (EDA)
@@ -74,9 +74,7 @@ input_dim = X_train.shape[1]
 ```
 Esto corresponde al número total de características después del preprocesamiento, incluyendo:
 
-- Variables numéricas escaladas
-
-- Variables categóricas codificadas mediante One-Hot Encoding
+- Variables numéricas escaladas, Variables categóricas codificadas mediante One-Hot Encoding
 
 Esta estrategia garantiza que el modelo sea agnóstico al número exacto de columnas generadas por el preprocesamiento.
 
@@ -88,19 +86,11 @@ hidden_layers = (64, 32)
 ```
 
 **Primera capa oculta – 64 neuronas**
-- Función principal: capturar interacciones complejas entre variables de entrada.
-
-- Tamaño suficientemente grande para aprender relaciones no lineales.
-
-- Adecuada para un dataset de tamaño medio como el utilizado.
+- Función principal: capturar interacciones complejas entre variables de entrada. Tamaño suficientemente grande para aprender relaciones no lineales. Adecuada para un dataset de tamaño medio como el utilizado.
 
 **Segunda capa oculta – 32 neuronas**
 
-- Reduce progresivamente la dimensionalidad.
-
-- Obliga al modelo a concentrar la información relevante.
-
-- Actúa como regularización estructural.
+- Reduce progresivamente la dimensionalidad. Obliga al modelo a concentrar la información relevante. Actúa como regularización estructural.
 
 ### Función de activación
 
@@ -118,9 +108,7 @@ ReLU es una elección estándar y adecuada para redes neuronales profundas y pro
 
 ### Regularización
 
-Para reducir el riesgo de sobreajuste, se incorporaron dos técnicas de regularización:
-
-**Dropout y Regularización L2**
+Para reducir el riesgo de sobreajuste, se incorporaron dos técnicas de regularización: **Dropout y Regularización L2**
 
 ```py
 dropout_rate = 0.15, l2_reg = 5e-5
@@ -192,6 +180,29 @@ Reporte de clasificación (TEST):
 |weighted avg|0.97|0.97|0.97|338|
 
 
-En el conjunto de validación, el modelo alcanzó una exactitud del 96%, con valores altos y equilibrados de precision, recall y f1-score tanto en los promedios macro como ponderados. Esto indica que el modelo logra un desempeño consistente entre todas las clases, sin favorecer de manera significativa a las categorías con mayor número de muestras. La mayoría de las clases presentan valores de f1-score superiores a 0.90, y varias de ellas alcanzan un desempeño perfecto, lo que sugiere que la arquitectura y el preprocesamiento permiten una correcta separación entre categorías.
+En el conjunto de validación, el modelo alcanzó una exactitud del 96%, con valores altos y equilibrados de precision, recall y f1-score tanto en los promedios macro como ponderados. Esto indica que el modelo logra un desempeño consistente entre todas las clases, sin favorecer de manera significativa a las categorías con mayor número de muestras. La mayoría de las clases presentan valores de f1-score superiores a 0.90, y varias de ellas alcanzan un desempeño perfecto, lo que sugiere que la arquitectura y el preprocesamiento permiten una correcta separación entre categorías. Al evaluar el modelo en el conjunto de prueba, se observa una ligera mejora en el rendimiento global, alcanzando una exactitud del 97%. Los promedios macro y ponderado de precision, recall y f1-score se mantienen alineados y cercanos a 0.97, lo que confirma que el modelo generaliza adecuadamente y no presenta signos de sobreajuste. La estabilidad de las métricas entre validación y prueba refuerza la idea de que el modelo aprendió patrones representativos del problema y no dependientes del conjunto de entrenamiento.
 
-Al evaluar el modelo en el conjunto de prueba, se observa una ligera mejora en el rendimiento global, alcanzando una exactitud del 97%. Los promedios macro y ponderado de precision, recall y f1-score se mantienen alineados y cercanos a 0.97, lo que confirma que el modelo generaliza adecuadamente y no presenta signos de sobreajuste. La estabilidad de las métricas entre validación y prueba refuerza la idea de que el modelo aprendió patrones representativos del problema y no dependientes del conjunto de entrenamiento.
+## Como ejecutar
+1. Abrir el proyecto:
+   - Descomprimir el archivo ZIP descargado. Navegar a la carpeta del proyecto. Abrir una terminal en esa ubicación.
+1. Crear un entorno virtual (opcional pero recomendado):
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # En Windows: venv\Scripts\activate
+    ```
+2. Instalar dependencias:
+    ```bash
+    pip install -r requirements.txt
+    ```
+3. Ejecutar la aplicación:
+    ```bash
+    python src/main.py
+    # siempre ejecutar desde la raiz del proyecto para evitar errores de rutas, no ejecutar desde la carpeta src.
+    ```
+
+4. El modelo preentrenado esta en la carpeta `src/test/mlp_model.keras`, el preprocesador en `src/test/preprocessor.joblib` y el codificador de etiquetas en `src/test/label_encoder.joblib`. Estos archivos son necesarios para realizar predicciones en nuevos datos de test.
+
+5. Para ejecutar el modelo preentrenado en un nuevo conjunto de datos, colocar el archivo CSV en la carpeta `src/test/` y seleccionar la opción de predicción en el menú principal. Asegurarse de que el archivo tenga el mismo formato y columnas que el conjunto de datos original utilizado para el entrenamiento.
+
+6. Seguir las instrucciones en pantalla para completar las acciones de predicción.
+7. Al terminar se mostrara un reporte de clasificación en la consola y una matriz de confusión con los resultados obtenidos en `src/test/confusion_matrix_test.png`.
