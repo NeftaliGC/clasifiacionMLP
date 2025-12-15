@@ -74,3 +74,6 @@ events.out.tfevents.*
 
 # Windows
 Thumbs.db
+
+# Resultados
+results/

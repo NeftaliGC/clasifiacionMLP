@@ -2,3 +2,7 @@
 *
 # Except this .gitignore file
 !.gitignore
+
+!preprocessor.joblib
+!label_encoder.joblib
+!mlp_model.keras
